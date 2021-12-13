@@ -1,0 +1,15 @@
+int[] dp=new int[len];//len为节点的数目
+Arrays.fill(dp,1);
+public int dfs(int root)
+    {
+        if(!hash.containsKey(root)){
+            dp[root]=1;
+            return 1;
+        }
+        List<Integer> ans=hash.get(root);
+        for(Integer tt:ans)
+        {
+            dp[root]+=dfs(tt);
+        }
+        return dp[root];
+    }

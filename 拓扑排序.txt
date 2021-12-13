@@ -1,0 +1,25 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] indegrees = new int[numCourses];//判断每个点入度的个数
+        List<List<Integer>> adjacency = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++)
+            adjacency.add(new ArrayList<>());
+        // Get the indegree and adjacency of every course.
+        for(int[] cp : prerequisites) {
+            indegrees[cp[0]]++;//统计这个点的入度
+            adjacency.get(cp[1]).add(cp[0]);//构建邻接表
+        }
+        for(int i = 0; i < numCourses; i++)
+            if(indegrees[i] == 0)
+                queue.add(i);
+        // BFS TopSort.
+        while(!queue.isEmpty()) {
+            int pre = queue.poll();
+            numCourses--;
+            for(int cur : adjacency.get(pre))
+                if(--indegrees[cur] == 0) queue.add(cur);
+        }
+        return numCourses == 0;//判断是不是有向无环图
+    }
+}

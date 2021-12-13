@@ -1,0 +1,7 @@
+sc.nextInt();//它会跳过回车和空格直到找到一个字符（串）并试图将这个字符（串）变为数字，如果不能变成数字就会报错。
+sc.next();//next()从遇到第一个有效字符（非空格、换行符）开始扫描，遇到第一个分隔符或结束符（空格’ ‘或者换行符 ‘\n’）时结束。
+sc.nextLine;// nextLine()则是扫描剩下的所有字符串知道遇到回车为止。
+sc.hasNext();//sc.hasNext()可以理解为把我们输入的值存到了sc当中而sc.next()可以理解为从sc中取值
+BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+bw.flush();记得最后必须加这个

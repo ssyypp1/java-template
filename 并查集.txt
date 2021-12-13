@@ -1,0 +1,72 @@
+public class UnionFind {//并的时候以x为根
+    int[] root=null;
+    int[] rank=null;
+    public UnionFind(int length){
+        root=new int[length];
+        rank=new int[length];
+        for(int i=0;i<length;i++){
+            root[i]=i;
+            rank[i]=0;
+        }
+    }
+    public int find(int x){
+        if(x==root[x])
+            return x;
+        return root[x]=find(root[x]);
+    }
+    public void union(int x,int y)
+    {
+        int rootx=find(x);
+        int rooty=find(y);
+        if(rootx!=rooty){//确定是否是两个树
+            if(rank[rootx]>rank[rooty])//判断哪个树高，高的树作为主树
+                root[rooty]=rootx;
+            else if(rank[rootx]<rank[rooty])
+                root[rootx]=rooty;
+            else//如果一样高，x为主树
+            {
+                root[rooty]=rootx;
+                rank[rootx]+=1;
+            }
+        }
+    }
+}
+//最长连续序列
+public class UnionFind {//并的时候以x为根
+    int[] root=null;
+    int[] rank=null;
+    int[] count=null;
+    public UnionFind(int length){
+        root=new int[length];
+        rank=new int[length];
+        count=new int[length];
+        for(int i=0;i<length;i++){
+            root[i]=i;
+            rank[i]=0;
+            count[i]=1;
+        }
+    }
+    public int find(int x){
+        if(x==root[x])
+            return x;
+        return root[x]=find(root[x]);
+    }
+    public void union(int x,int y)
+    {
+        int rootx=find(x);
+        int rooty=find(y);
+        count[rootx]+=count[rooty];
+        count[rooty]=count[rootx];
+        if(rootx!=rooty){
+            if(rank[rootx]>rank[rooty])
+                root[rooty]=rootx;
+            else if(rank[rootx]<rank[rooty])
+                root[rootx]=rooty;
+            else
+            {
+                root[rooty]=rootx;
+                rank[rootx]+=1;
+            }
+        }
+    }
+}

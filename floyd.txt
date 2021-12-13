@@ -1,0 +1,59 @@
+class Solution {
+    static final int INF=Integer.MAX_VALUE;
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int[][] dist=new int[n][n];
+        int[][] path=new int[n][n];
+        for(int i=0;i<n;i++){
+            Arrays.fill(dist[i],INF);
+            Arrays.fill(path[i],INF);
+        }
+        for (int i = 0; i < dist.length; i++) {
+            for (int j = 0; j < dist.length; j++) {
+                if(i==j)
+                    dist[i][j] = 0;    // "顶点i"到"顶点j"的路径长度为"i到j的权值"。
+                path[i][j] = j;                // "顶点i"到"顶点j"的最短路径是经过顶点j。
+            }
+        }
+
+        for(int[] edge:edges)
+        {
+            dist[edge[0]][edge[1]]=edge[2];
+            dist[edge[1]][edge[0]]=edge[2];
+        }
+        for (int k = 0; k < dist.length; k++) {
+            for (int i = 0; i < dist.length; i++) {
+                for (int j = 0; j < dist.length; j++) {
+
+                    // 如果经过下标为k顶点路径比原两点间路径更短，则更新dist[i][j]和path[i][j]
+                    int tmp = (dist[i][k]==INF || dist[k][j]==INF) ? INF : (dist[i][k] + dist[k][j]);
+                    if (dist[i][j] > tmp) {
+                        // "i到j最短路径"对应的值设，为更小的一个(即经过k)
+                        dist[i][j] = tmp;
+                        // "i到j最短路径"对应的路径，经过k
+                        path[i][j] = path[i][k];
+                    }
+                }
+            }
+        }
+        for(int i=0;i<dist.length;i++)
+        {
+            for(int j=0;j<dist.length;j++)
+            {
+                System.out.print(dist[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        for(int i=0;i<dist.length;i++)
+        {
+            for(int j=0;j<dist.length;j++)
+            {
+                System.out.print(path[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+        return 0;
+    }
+}

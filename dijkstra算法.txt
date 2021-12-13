@@ -1,0 +1,121 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        Map<Integer,List<int[]>> hash=new HashMap();
+        while(sc.hasNext())
+        {
+            int x = sc.nextInt(),y = sc.nextInt(),z=sc.nextInt();
+            hash.putIfAbsent(x, new ArrayList<>());
+            hash.get(x).add(new int[]{y,z});
+        }
+        int[] dis=new int[n+1];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+        boolean[] flag=new boolean[n+1];
+        dis[1]=0;
+        flag[1]=true;
+        Deque<Integer> queue=new LinkedList();
+        queue.add(1);
+        int tmp=0;
+        while(!queue.isEmpty())
+        {
+            int a=queue.removeFirst();
+            List<int[]> ans=hash.get(a);
+            if(ans!=null)
+            {
+                for(int[] arrive:ans)
+                {
+                    if(tmp+arrive[1]<dis[arrive[0]])
+                        dis[arrive[0]]=tmp+arrive[1];
+                }
+            }
+            int choose=-1;
+            int min=Integer.MAX_VALUE;
+            for(int i=1;i<=n;i++)
+            {
+                if(!flag[i]&&dis[i]<min)
+                {
+                    choose=i;
+                    min=dis[i];
+                }
+            }
+            if(choose==-1)
+                break;
+            else
+            {
+                flag[choose]=true;
+                tmp=min;
+            }
+            queue.add(choose);
+        }
+        if(dis[n]==Integer.MAX_VALUE)
+            System.out.println(-1);
+        else
+            System.out.println(dis[n]);
+    }
+}
+//邻接表优化+优先队列
+import java.util.*;
+public class Main{
+    public static void main(String[] args)
+    {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+        List<List<int[]>> adj=new ArrayList();
+        for(int i=0;i<=n;i++)
+            adj.add(new ArrayList());
+        for(int i=0;i<m;i++)
+        {
+            int a=sc.nextInt();
+            int b=sc.nextInt();
+            int c=sc.nextInt();
+            adj.get(a).add(new int[]{b,c});
+        }
+        int[] dis=new int[n+1];
+        boolean[] flag=new boolean[n+1];
+        Arrays.fill(dis,Integer.MAX_VALUE);
+        dis[1]=0;
+        flag[1]=true;
+        Deque<Integer> queue=new LinkedList();
+        queue.add(1);
+        int now=0;
+        PriorityQueue<int[]> pri=new PriorityQueue<>((a,b)->{
+            return a[1]-b[1];
+        });
+        while(!queue.isEmpty())
+        {
+            int cur=queue.remove();
+            List<int[]> tmp=adj.get(cur);
+            for(int[] arrive:tmp)
+            {
+                if(now+arrive[1]<dis[arrive[0]]){
+                    dis[arrive[0]]=now+arrive[1];
+                    pri.add(new int[]{arrive[0],dis[arrive[0]]});
+                }
+            }
+            while(!pri.isEmpty())
+            {
+                if(flag[pri.peek()[0]])
+                    pri.remove();
+                else
+                    break;
+            }
+            if(pri.size()==0)
+                break;
+            else
+            {
+                int[] tmp2=pri.remove();
+                flag[tmp2[0]]=true;
+                now=tmp2[1];
+                queue.add(tmp2[0]);
+            }
+        }
+        if(dis[n]==Integer.MAX_VALUE)
+            System.out.println(-1);
+        else
+            System.out.println(dis[n]);
+    }
+}

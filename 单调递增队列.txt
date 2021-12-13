@@ -1,0 +1,24 @@
+class MaxQueue{
+    Deque<Integer> queue1=new LinkedList();
+    Deque<Integer> queue2=new LinkedList();
+    public int max(){
+        if(queue2.isEmpty())
+            return -1;
+        return queue2.peekFirst();
+    }
+    public void push_back(int value){
+        while(!queue2.isEmpty()&&queue2.peekLast()<value)
+            queue2.pollLast();
+        queue1.addLast(value);
+        queue2.addLast(value);
+    }
+    public void pop_front(){
+        int value;
+        if(!queue1.isEmpty())
+            value=queue1.removeFirst();
+        else
+            return;
+        if(!queue2.isEmpty()&&queue2.peekFirst().equals(value))
+            queue2.removeFirst();
+    }
+}

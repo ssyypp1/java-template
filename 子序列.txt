@@ -1,0 +1,20 @@
+        dp=new int[len+1][26];//len为主串的长度
+        Arrays.fill(dp[len],len);
+        for(int i=len-1;i>=0;i--)//填表
+        {
+            for(int j=0;j<26;j++)
+            {
+                if(t.charAt(i)==j+'a')
+                    dp[i][j]=i;
+                else
+                    dp[i][j]=dp[i+1][j];
+            }
+        }
+//s是模式串
+        int add = 0;
+        for (int i = 0;i<s.length();i++) {
+            if (dp[add][s.charAt(i) - 'a'] == len) {
+                return false;
+            }
+            add = dp[add][s.charAt(i) - 'a']+1;
+        }

@@ -1,0 +1,39 @@
+class BIT{
+    long[] a;
+    int n;
+    public BIT(int len) {
+        a=new long[len+1];//下标从1开始
+        n=len;
+    }
+    public long lowbit(long x)
+    {
+        return x&-x;
+    }
+    public long query(int x)
+    {//求前n项和
+        int ans=0;
+        for(int i=x;i>=1;i-=lowbit(i))
+            ans+=a[i];
+        return  ans;
+    }
+    public long query(long l,long r)
+    {//包含左端点和右端点的区间和
+        long res1=0;
+        long res2=0;
+        for(long i=l-1;i>=1;i-=lowbit(i))
+            res1+=a[(int)i];
+        for(long i=r;i>=1;i-=lowbit(i))
+            res2+=a[(int)i];
+        return res2-res1;
+    }
+    public void add(long index,long addition)
+    {
+        for(long i=index;i<=n;i+=lowbit(i))
+            a[(int)i]+=addition;
+    }
+    public void change(long index,long curr,long past)
+    {
+        for(long i=index;i<=n;i+=lowbit(i))
+            a[(int) i]+=-past+curr;
+    }
+}

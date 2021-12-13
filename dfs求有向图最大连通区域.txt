@@ -1,0 +1,53 @@
+//lc 5936
+class Solution {
+    Map<Integer,Set<Integer>> hash=new HashMap();
+    boolean flag[];
+    public int maximumDetonation(int[][] bo) {
+        int res=1;
+        int len=bo.length;
+        flag=new boolean[len];
+        for(int i=0;i<len;i++)
+        {
+            for(int j=0;j<len;j++)
+            {
+                if(i==j)
+                    continue;
+                long a=bo[i][0]-bo[j][0];
+                long b=bo[i][1]-bo[j][1];
+                long cnt=(a*a)+(b*b);
+                long rr=(long)bo[i][2]*(long)bo[i][2];
+                if(cnt<=rr){
+                    Set<Integer> set;
+                    if(hash.containsKey(i))
+                        set=hash.get(i);
+                    else
+                        set=new HashSet();
+                    set.add(j);
+                    hash.put(i,set);
+                }
+            }
+        }//建图的过程
+        for(int i=0;i<len;i++){//遍历每个结点求最大连通区域
+            flag[i]=true;
+            res=Math.max(res,dfs(i));
+            Arrays.fill(flag,false);
+        }
+        return res;
+    }
+    public int dfs(int index)
+    {
+        Set<Integer> set=hash.getOrDefault(index,null);
+        if(set==null){
+            return 1;
+        }
+        int sum=0;
+        for(Integer a:set)
+        {
+            if(flag[a])
+                continue;
+            flag[a]=true;
+            sum+=dfs(a);
+        }
+        return 1+sum;
+    }
+}

@@ -1,0 +1,51 @@
+class Trie {
+    Character tmp='0';
+    boolean flag=false;
+    Map<Character,Trie> hash=new HashMap();
+    public void insert(String word) {
+        char[] ans=word.toCharArray();
+        Trie curr=this;
+        for(int i=0;i<ans.length;i++)
+        {
+            if(curr.hash.containsKey(ans[i])){
+                curr=curr.hash.get(ans[i]);
+            }
+            else
+            {
+                Trie t=new Trie();
+                t.tmp=ans[i];
+                curr.hash.put(ans[i],t);
+                curr=t;
+            }
+        }
+        curr.flag=true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        Trie cur=this;
+        char[] ans=word.toCharArray();
+        for(int i=0;i<ans.length;i++)
+        {
+            if(!cur.hash.containsKey(ans[i]))
+                return false;
+            cur=cur.hash.get(ans[i]);
+        }
+        if(cur.flag)
+            return true;
+        return false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        Trie cur=this;
+        char[] ans=prefix.toCharArray();
+        for(int i=0;i<ans.length;i++)
+        {
+            if(!cur.hash.containsKey(ans[i]))
+                return false;
+            cur=cur.hash.get(ans[i]);
+        }
+        return true;
+    }
+}

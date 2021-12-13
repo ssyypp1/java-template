@@ -1,0 +1,21 @@
+public  void fullSort(int[] arr, int start, int end) {
+        // 递归终止条件
+        if (start == end) {
+            int[] tmp=new int[arr.length];
+            for(int i=0;i<arr.length;i++)
+                tmp[i]=arr[i];
+            res.add(tmp);
+            return;
+        }
+        for (int i = start; i <= end; i++) {
+            swap(arr, i, start);
+            fullSort(arr, start + 1, end);
+            swap(arr, i, start);
+        }
+    }
+
+    private  void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }

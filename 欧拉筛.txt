@@ -1,0 +1,18 @@
+class solution{
+    int cnt=0;
+    int[] prime;
+    boolean[] vis;
+    public solution(int n){
+        prime=new int[n];
+        vis=new boolean[n];
+    }
+    void getprime(int n) {
+        for (int i = 2; i <= n; ++i) {
+            if (!vis[i]) prime[cnt++] = i;
+            for (int j = 0; i * prime[j] <= n; ++j) {
+                vis[i * prime[j]] = true;
+                if (i % prime[j] == 0) break;
+            }
+        }
+    }
+}

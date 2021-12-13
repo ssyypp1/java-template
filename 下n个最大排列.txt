@@ -1,0 +1,44 @@
+class Solution1 {
+    public void nextPermutation(int[] nums) {
+        int len=nums.length;
+        int left=len-2;
+        int right=len-1;
+        boolean flag=false;
+        while(left>=0)
+        {
+            if(nums[left]<nums[right])
+            {
+                int find=len-1;
+                for(;find>=right;find--)
+                {
+                    if(nums[find]>nums[left]&&(find+1>len-1||nums[find+1]<=nums[left]))
+                    {
+                        int tmp=nums[left];
+                        nums[left]=nums[find];
+                        nums[find]=tmp;
+                        flag=true;
+                        break;
+                    }  
+                }
+            }
+            if(!flag){
+                left--;
+                right--;
+            }
+            else
+                break;
+        }
+        reverse(nums,right,len-1);
+    }
+    public void reverse(int[] nums,int start,int end)
+    {
+        while(start<end)
+        {
+            int tmp=nums[start];
+            nums[start]=nums[end];
+            nums[end]=tmp;
+            start++;
+            end--;
+        }
+    }
+}
