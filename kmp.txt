@@ -1,0 +1,30 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.length()==0)
+            return 0;
+        int[] next=kmpnext(needle);
+        for(int i=0,j=0;i<haystack.length();i++)
+        {
+            while(j>0&&haystack.charAt(i)!=needle.charAt(j))
+                j=next[j-1];//前j个字符的最长公共前后缀
+            if(haystack.charAt(i)==needle.charAt(j))
+                j++;
+            if (j == needle.length()) {//找到了 // j = 3 i
+                return i - j + 1;
+            }
+        }
+        return -1;
+    }
+    public int[] kmpnext(String needle){
+        int[] next=new int[needle.length()];
+        next[0]=0;//前0+1个字符的前缀与后缀最长重合的长度
+        for(int i=1,j=0;i<needle.length();i++){
+            while(j>0&&needle.charAt(i)!=needle.charAt(j))
+                j=next[j-1];//前j个字符的最长公共前后缀
+            if(needle.charAt(i)==needle.charAt(j))
+                j++;
+            next[i]=j;
+        }
+        return next;
+    }
+}
