@@ -1,0 +1,27 @@
+//acwing 138
+import java.util.*;
+public class Main{
+    static long[] h=new long[1000010];//哈希数组
+    static long[] p=new long[1000010];//指数数组
+    static int base=13331;//经验值
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String a=sc.nextLine();
+        int len=a.length();
+        p[0]=1;
+        for(int i=1;i<=len;i++){
+            h[i]=h[i-1]*base+(int)(a.charAt(i-1)-'a')+1;
+            p[i]=p[i-1]*base;
+        }
+        int count=sc.nextInt();
+        for(int i=0;i<count;i++){
+            int l1=sc.nextInt(),r1=sc.nextInt(),l2=sc.nextInt(),r2=sc.nextInt();
+            long b=h[r1]-h[l1-1]*p[r1-l1+1];
+            long c=h[r2]-h[l2-1]*p[r2-l2+1];
+            if(c==b)
+                System.out.println("Yes");
+            else
+                System.out.println("No");
+        }
+    }
+}
